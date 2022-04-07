@@ -1,5 +1,7 @@
 package com.example.geoquiz
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +22,7 @@ import java.util.Optional.of
 private const val TAG="MainActivity"
 private const val QUESTION_INDEX_KEY="index"
 private const val QUESTIONS_ANSWERED_KEY="answer"
+private const val REQUEST_CODE_CHEAT=0
 
 class QuizActivity : AppCompatActivity() {
 
@@ -30,6 +33,7 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var mNextButton: ImageButton
     private lateinit var mPrevButton: ImageButton
     private lateinit var mQuestionTextView: TextView
+    private lateinit var cheatButton: Button
     private lateinit var scoreButton: Button
 
 
@@ -57,6 +61,7 @@ class QuizActivity : AppCompatActivity() {
         mNextButton=findViewById(R.id.next_button)
         mPrevButton=findViewById(R.id.prev_button)
         scoreButton=findViewById(R.id.score_button)
+        cheatButton=findViewById(R.id.cheat_button)
 
         if(savedInstanceState!=null){
             quizViewModel.mCurrentIndex=savedInstanceState.getInt(QUESTION_INDEX_KEY)
@@ -119,10 +124,26 @@ class QuizActivity : AppCompatActivity() {
 
         }
 
+        cheatButton.setOnClickListener {
+            val answerIsTrue=quizViewModel.currentQuestionAnswer
+            val intent= CheatActivity.newIntent(this@QuizActivity, answerIsTrue)
+            startActivityForResult(intent, REQUEST_CODE_CHEAT)
+        }
 
 
 
 
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode!= Activity.RESULT_OK){
+            return
+        }
+        if(requestCode== REQUEST_CODE_CHEAT){
+            quizViewModel.isCheater=data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false)?:false
+        }
     }
 
     override fun onStart() {
@@ -168,17 +189,25 @@ class QuizActivity : AppCompatActivity() {
 
     }
 
-    private fun checkAnswer(userPressedTrue: Boolean){
+    private fun checkAnswer(userAnswer: Boolean){
         correctAnswers=ArrayList()
         val answerIsTrue=quizViewModel.currentQuestionAnswer
-        var messageResId=0;
+        /*var messageResId=0;
         if(userPressedTrue==answerIsTrue){
             messageResId=R.string.correct_toast
             correctAnswers.add(messageResId)
 
         }else{
             messageResId=R.string.incorrect_toast
+        }*/
+
+        val messageResId=when{
+            quizViewModel.isCheater->R.string.judgment_toast
+            userAnswer==answerIsTrue ->R.string.correct_toast
+
+            else ->R.string.incorrect_toast
         }
+
 
         Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show()
         clicked[quizViewModel.mCurrentIndex]=true

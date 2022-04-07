@@ -8,6 +8,7 @@ private const val TAG="MainActivity"
 class QuizViewModel : ViewModel() {
 
      var mCurrentIndex: Int=0
+    var isCheater=false
 
      var mQuestionBank= listOf<Question>(
         Question(R.string.question_australia,true),
