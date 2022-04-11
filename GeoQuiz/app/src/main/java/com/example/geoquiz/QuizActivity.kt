@@ -110,7 +110,7 @@ class QuizActivity : AppCompatActivity() {
 
             Toast.makeText(
                 this,
-                "Your score is: ${(score.toDouble() / 4) * 100}%",
+                "Your score is: ${(score.toDouble() / quizViewModel.mQuestionBank.size) * 100}%",
                 Toast.LENGTH_SHORT
             ).show()
 
