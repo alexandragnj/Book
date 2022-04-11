@@ -50,9 +50,7 @@ class QuizActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_quiz)
 
-        /* val provider: ViewModelProvider=ViewModelProviders.of(this)
-         val quizViewModel=provider.get(QuizViewModel::class.java)
-         Log.d(TAG,"Got a QuizViewModel: $quizViewModel")*/
+
 
         mTrueButton = findViewById(R.id.true_button)
         mFalseButton = findViewById(R.id.false_button)
@@ -68,9 +66,6 @@ class QuizActivity : AppCompatActivity() {
         }
 
 
-        /* val question=mQuestionBank[mCurrentIndex].textResId
-         mQuestionTextView.setText(question)
-         Log.e("Activity","este: ${question.toString()}")*/
 
         mQuestionTextView.setOnClickListener {
             quizViewModel.moveToNext()
@@ -78,9 +73,6 @@ class QuizActivity : AppCompatActivity() {
         }
 
         mTrueButton.setOnClickListener {
-            /*val toast=Toast.makeText(this, "Correct",Toast.LENGTH_SHORT)
-            toast.setGravity(Gravity.TOP,0,20)
-            toast.show()*/
 
             checkAnswer(true)
 
@@ -95,8 +87,6 @@ class QuizActivity : AppCompatActivity() {
 
         mNextButton.setOnClickListener {
             quizViewModel.moveToNext()
-            /*val question=mQuestionBank[mCurrentIndex].textResId
-            mQuestionTextView.setText(question)*/
 
             updateQuestion()
 
@@ -190,14 +180,7 @@ class QuizActivity : AppCompatActivity() {
     private fun checkAnswer(userAnswer: Boolean) {
         correctAnswers = ArrayList()
         val answerIsTrue = quizViewModel.currentQuestionAnswer
-        /*var messageResId=0;
-        if(userPressedTrue==answerIsTrue){
-            messageResId=R.string.correct_toast
-            correctAnswers.add(messageResId)
 
-        }else{
-            messageResId=R.string.incorrect_toast
-        }*/
 
         val messageResId = when {
             quizViewModel.isCheater -> R.string.judgment_toast
