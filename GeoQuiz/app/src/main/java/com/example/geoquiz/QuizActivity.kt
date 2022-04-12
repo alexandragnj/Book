@@ -21,11 +21,11 @@ private const val REQUEST_CODE_CHEAT = 0
 class QuizActivity : AppCompatActivity() {
 
 
-    private lateinit var mTrueButton: Button
-    private lateinit var mFalseButton: Button
-    private lateinit var mNextButton: ImageButton
-    private lateinit var mPrevButton: ImageButton
-    private lateinit var mQuestionTextView: TextView
+    private lateinit var trueButton: Button
+    private lateinit var falseButton: Button
+    private lateinit var nextButton: ImageButton
+    private lateinit var prevButton: ImageButton
+    private lateinit var questionTextView: TextView
     private lateinit var cheatButton: Button
     private lateinit var scoreButton: Button
 
@@ -46,40 +46,40 @@ class QuizActivity : AppCompatActivity() {
 
 
 
-        mTrueButton = findViewById(R.id.true_button)
-        mFalseButton = findViewById(R.id.false_button)
-        mQuestionTextView = findViewById(R.id.question_text_view)
-        mNextButton = findViewById(R.id.next_button)
-        mPrevButton = findViewById(R.id.prev_button)
+        trueButton = findViewById(R.id.true_button)
+        falseButton = findViewById(R.id.false_button)
+        questionTextView = findViewById(R.id.question_text_view)
+        nextButton = findViewById(R.id.next_button)
+        prevButton = findViewById(R.id.prev_button)
         scoreButton = findViewById(R.id.score_button)
         cheatButton = findViewById(R.id.cheat_button)
 
         if (savedInstanceState != null) {
-            quizViewModel.mCurrentIndex = savedInstanceState.getInt(QUESTION_INDEX_KEY)
+            quizViewModel.currentIndex = savedInstanceState.getInt(QUESTION_INDEX_KEY)
             questionWasAnswered = savedInstanceState.getBooleanArray(QUESTIONS_ANSWERED_KEY)!!
         }
 
 
 
-        mQuestionTextView.setOnClickListener {
+        questionTextView.setOnClickListener {
             quizViewModel.moveToNext()
             updateQuestion()
         }
 
-        mTrueButton.setOnClickListener {
+        trueButton.setOnClickListener {
 
             checkAnswer(true)
 
         }
 
-        mFalseButton.setOnClickListener {
+        falseButton.setOnClickListener {
 
             checkAnswer(false)
 
         }
 
 
-        mNextButton.setOnClickListener {
+        nextButton.setOnClickListener {
             quizViewModel.moveToNext()
 
             updateQuestion()
@@ -87,7 +87,7 @@ class QuizActivity : AppCompatActivity() {
 
         }
 
-        mPrevButton.setOnClickListener {
+        prevButton.setOnClickListener {
             quizViewModel.moveToPrev()
             updateQuestion()
 
@@ -104,7 +104,7 @@ class QuizActivity : AppCompatActivity() {
 
             Toast.makeText(
                 this,
-                "Your score is: ${(score.toDouble() / quizViewModel.mQuestionBank.size) * 100}%",
+                "Your score is: ${(score.toDouble() / quizViewModel.questionBank.size) * 100}%",
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -148,7 +148,7 @@ class QuizActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d(TAG, "onSaveInstanceState() called")
-        outState.putInt(QUESTION_INDEX_KEY, quizViewModel.mCurrentIndex)
+        outState.putInt(QUESTION_INDEX_KEY, quizViewModel.currentIndex)
         outState.putBooleanArray(QUESTIONS_ANSWERED_KEY, questionWasAnswered)
     }
 
@@ -165,9 +165,9 @@ class QuizActivity : AppCompatActivity() {
 
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
-        mQuestionTextView.setText(questionTextResId)
-        mFalseButton.isClickable = !(questionWasAnswered[quizViewModel.mCurrentIndex]!!)
-        mTrueButton.isClickable = !(questionWasAnswered[quizViewModel.mCurrentIndex]!!)
+        questionTextView.setText(questionTextResId)
+        falseButton.isClickable = !(questionWasAnswered[quizViewModel.currentIndex]!!)
+        trueButton.isClickable = !(questionWasAnswered[quizViewModel.currentIndex]!!)
 
     }
 
@@ -185,9 +185,9 @@ class QuizActivity : AppCompatActivity() {
 
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
-        questionWasAnswered[quizViewModel.mCurrentIndex] = true
-        mTrueButton.isClickable = false
-        mFalseButton.isClickable = false
+        questionWasAnswered[quizViewModel.currentIndex] = true
+        trueButton.isClickable = false
+        falseButton.isClickable = false
     }
 
 
