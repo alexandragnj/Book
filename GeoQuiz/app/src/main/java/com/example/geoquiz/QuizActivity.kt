@@ -101,10 +101,12 @@ class QuizActivity : AppCompatActivity() {
                 score += 1
             }
 
+            val scoreFinalValue=(score.toDouble()/quizViewModel.questionBank.size)*100
+
 
             Toast.makeText(
                 this,
-                "Your score is: ${(score.toDouble() / quizViewModel.questionBank.size) * 100}%",
+                "Your score is: ${scoreFinalValue}%",
                 Toast.LENGTH_SHORT
             ).show()
 
