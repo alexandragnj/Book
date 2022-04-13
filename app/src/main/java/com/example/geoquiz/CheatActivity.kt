@@ -3,10 +3,10 @@ package com.example.geoquiz
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 private const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
 const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
@@ -35,7 +35,6 @@ class CheatActivity : AppCompatActivity() {
 
             answerTextView.setText(answerText)
             setAnswerShownResult(true)
-
         }
     }
 

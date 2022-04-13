@@ -1,9 +1,6 @@
 package com.example.geoquiz
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-
-private const val TAG = "MainActivity"
 
 class QuizViewModel : ViewModel() {
 
@@ -16,7 +13,7 @@ class QuizViewModel : ViewModel() {
         Question(R.string.question_mideast, false),
         Question(R.string.question_africa, false),
 
-        )
+    )
 
     val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answerTrue
@@ -34,5 +31,4 @@ class QuizViewModel : ViewModel() {
             currentIndex = questionBank.size - 1
         }
     }
-
 }

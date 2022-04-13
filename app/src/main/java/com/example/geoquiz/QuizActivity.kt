@@ -2,24 +2,22 @@ package com.example.geoquiz
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-
 
 private const val TAG = "MainActivity"
 private const val QUESTION_INDEX_KEY = "index"
 private const val QUESTIONS_ANSWERED_KEY = "answer"
 private const val REQUEST_CODE_CHEAT = 0
+private const val NUMBER_FOR_PERCENTAGE_CALCULATION = 100
 
 class QuizActivity : AppCompatActivity() {
-
 
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
@@ -29,13 +27,12 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var cheatButton: Button
     private lateinit var scoreButton: Button
 
-
     private val quizViewModel: QuizViewModel by lazy {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
 
+    private lateinit var questionWasAnswered: BooleanArray
 
-    private var questionWasAnswered: BooleanArray = BooleanArray(4) //button true or false was clicked
     private lateinit var correctAnswers: ArrayList<Int>
     private var score: Int = 0
 
@@ -44,7 +41,8 @@ class QuizActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_quiz)
 
-
+        questionWasAnswered =
+            BooleanArray(quizViewModel.questionBank.size) // button true or false was clicked
 
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
@@ -59,8 +57,6 @@ class QuizActivity : AppCompatActivity() {
             questionWasAnswered = savedInstanceState.getBooleanArray(QUESTIONS_ANSWERED_KEY)!!
         }
 
-
-
         questionTextView.setOnClickListener {
             quizViewModel.moveToNext()
             updateQuestion()
@@ -69,28 +65,22 @@ class QuizActivity : AppCompatActivity() {
         trueButton.setOnClickListener {
 
             checkAnswer(true)
-
         }
 
         falseButton.setOnClickListener {
 
             checkAnswer(false)
-
         }
-
 
         nextButton.setOnClickListener {
             quizViewModel.moveToNext()
 
             updateQuestion()
-
-
         }
 
         prevButton.setOnClickListener {
             quizViewModel.moveToPrev()
             updateQuestion()
-
         }
 
         updateQuestion()
@@ -99,17 +89,17 @@ class QuizActivity : AppCompatActivity() {
 
             for (i in correctAnswers) {
                 score += 1
+                print(i)
             }
 
-            val scoreFinalValue=(score.toDouble()/quizViewModel.questionBank.size)*100
-
+            val scoreFinalValue =
+                (score.toDouble() / quizViewModel.questionBank.size) * NUMBER_FOR_PERCENTAGE_CALCULATION
 
             Toast.makeText(
                 this,
-                "Your score is: ${scoreFinalValue}%",
+                "Your score is: $scoreFinalValue%",
                 Toast.LENGTH_SHORT
             ).show()
-
         }
 
         cheatButton.setOnClickListener {
@@ -117,8 +107,6 @@ class QuizActivity : AppCompatActivity() {
             val intent = CheatActivity.newIntent(this@QuizActivity, answerIsTrue)
             startActivityForResult(intent, REQUEST_CODE_CHEAT)
         }
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -139,7 +127,6 @@ class QuizActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume() called")
-
     }
 
     override fun onPause() {
@@ -164,19 +151,17 @@ class QuizActivity : AppCompatActivity() {
         Log.d(TAG, "onDestroy() called")
     }
 
-
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
         falseButton.isClickable = !(questionWasAnswered[quizViewModel.currentIndex]!!)
         trueButton.isClickable = !(questionWasAnswered[quizViewModel.currentIndex]!!)
-
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
+        questionWasAnswered = BooleanArray(quizViewModel.questionBank.size)
         correctAnswers = ArrayList()
         val answerIsTrue = quizViewModel.currentQuestionAnswer
-
 
         val messageResId = when {
             quizViewModel.isCheater -> R.string.judgment_toast
@@ -185,12 +170,9 @@ class QuizActivity : AppCompatActivity() {
             else -> R.string.incorrect_toast
         }
 
-
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
         questionWasAnswered[quizViewModel.currentIndex] = true
         trueButton.isClickable = false
         falseButton.isClickable = false
     }
-
-
 }
