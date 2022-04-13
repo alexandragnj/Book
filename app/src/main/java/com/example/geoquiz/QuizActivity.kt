@@ -63,16 +63,16 @@ class QuizActivity : AppCompatActivity() {
 
             quizViewModel.checkAnswer(true)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
-            trueButton.isClickable = false
-            falseButton.isClickable = false
+            setAnswerButtonsClickable(false)
+
         }
 
         falseButton.setOnClickListener {
 
             quizViewModel.checkAnswer(false)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
-            trueButton.isClickable = false
-            falseButton.isClickable = false
+            setAnswerButtonsClickable(false)
+            
         }
 
         nextButton.setOnClickListener {
@@ -159,6 +159,11 @@ class QuizActivity : AppCompatActivity() {
         questionTextView.setText(questionTextResId)
         falseButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex]!!)
         trueButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex]!!)
+    }
+
+    private fun setAnswerButtonsClickable(clickableStatus: Boolean) {
+        trueButton.isClickable = clickableStatus
+        falseButton.isClickable = clickableStatus
     }
 
 
