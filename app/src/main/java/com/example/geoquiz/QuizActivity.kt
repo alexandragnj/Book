@@ -30,7 +30,7 @@ class QuizActivity : AppCompatActivity() {
     private val quizViewModel: QuizViewModel by lazy {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
-    
+
 
     private lateinit var correctAnswers: ArrayList<Int>
     private var score: Int = 0
