@@ -28,7 +28,6 @@ class CheatActivity : AppCompatActivity() {
         showAnswerButton = findViewById(R.id.show_answer_button)
 
         setClickListeners()
-
     }
 
     companion object {
@@ -57,6 +56,5 @@ class CheatActivity : AppCompatActivity() {
             answerTextView.setText(answerText)
             setAnswerShownResult(true)
         }
-
     }
 }

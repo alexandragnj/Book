@@ -1,6 +1,5 @@
 package com.example.geoquiz
 
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 
 class QuizViewModel : ViewModel() {
@@ -10,14 +9,13 @@ class QuizViewModel : ViewModel() {
     lateinit var correctAnswers: ArrayList<Int>
     var messageResId: Int = 0
 
-
     var questionBank = listOf<Question>(
         Question(R.string.question_australia, true),
         Question(R.string.question_oceans, true),
         Question(R.string.question_mideast, false),
         Question(R.string.question_africa, false),
 
-        )
+    )
 
     var questionWasAnswered: BooleanArray = BooleanArray(questionBank.size)
 
@@ -56,7 +54,5 @@ class QuizViewModel : ViewModel() {
         }
 
         questionWasAnswered[currentIndex] = true
-
-
     }
 }

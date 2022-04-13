@@ -31,14 +31,12 @@ class QuizActivity : AppCompatActivity() {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
 
-
     private var score: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_quiz)
-
 
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
@@ -55,7 +53,6 @@ class QuizActivity : AppCompatActivity() {
         }
 
         setClickListeners()
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -113,7 +110,6 @@ class QuizActivity : AppCompatActivity() {
             quizViewModel.checkAnswer(true)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
             setAnswerButtonsClickable(false)
-
         }
 
         falseButton.setOnClickListener {
@@ -121,7 +117,6 @@ class QuizActivity : AppCompatActivity() {
             quizViewModel.checkAnswer(false)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
             setAnswerButtonsClickable(false)
-
         }
 
         nextButton.setOnClickListener {
@@ -159,7 +154,6 @@ class QuizActivity : AppCompatActivity() {
             val intent = CheatActivity.newIntent(this@QuizActivity, answerIsTrue)
             startActivityForResult(intent, REQUEST_CODE_CHEAT)
         }
-
     }
 
     private fun updateQuestion() {
@@ -173,6 +167,4 @@ class QuizActivity : AppCompatActivity() {
         trueButton.isClickable = clickableStatus
         falseButton.isClickable = clickableStatus
     }
-
-
 }
