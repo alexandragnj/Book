@@ -72,7 +72,7 @@ class QuizActivity : AppCompatActivity() {
             quizViewModel.checkAnswer(false)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
             setAnswerButtonsClickable(false)
-            
+
         }
 
         nextButton.setOnClickListener {
@@ -115,6 +115,7 @@ class QuizActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) {
+            Log.d(TAG, "There is no result - onActiviyResult")
             return
         }
         if (requestCode == REQUEST_CODE_CHEAT) {
