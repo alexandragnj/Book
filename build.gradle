@@ -17,6 +17,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:7.1.2")
         classpath "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
     }
 }
 
@@ -33,6 +34,11 @@ allprojects {
         google()
     }
     apply plugin: "org.jlleitschuh.gradle.ktlint"
+    apply plugin: 'io.gitlab.arturbosch.detekt'
+
+    detekt {
+        config = files("config/detekt/detekt.yml")
+    }
 }
 
 task clean(type: Delete) {
