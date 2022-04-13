@@ -28,7 +28,7 @@ class CheatActivity : AppCompatActivity() {
         answerTextView = findViewById(R.id.answer_text_view)
         showAnswerButton = findViewById(R.id.show_answer_button)
 
-        answerTextView.isVisible=false
+        answerTextView.isVisible = false
 
         setClickListeners()
     }
@@ -56,7 +56,7 @@ class CheatActivity : AppCompatActivity() {
                 else -> R.string.false_button
             }
 
-            answerTextView.isVisible=true
+            answerTextView.isVisible = true
             answerTextView.setText(answerText)
             setAnswerShownResult(true)
         }
