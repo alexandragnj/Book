@@ -27,15 +27,8 @@ class CheatActivity : AppCompatActivity() {
         answerTextView = findViewById(R.id.answer_text_view)
         showAnswerButton = findViewById(R.id.show_answer_button)
 
-        showAnswerButton.setOnClickListener {
-            val answerText = when {
-                answerIsTrue -> R.string.true_button
-                else -> R.string.false_button
-            }
+        setClickListeners()
 
-            answerTextView.setText(answerText)
-            setAnswerShownResult(true)
-        }
     }
 
     companion object {
@@ -51,5 +44,19 @@ class CheatActivity : AppCompatActivity() {
             putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown)
         }
         setResult(Activity.RESULT_OK, data)
+    }
+
+    private fun setClickListeners() {
+
+        showAnswerButton.setOnClickListener {
+            val answerText = when {
+                answerIsTrue -> R.string.true_button
+                else -> R.string.false_button
+            }
+
+            answerTextView.setText(answerText)
+            setAnswerShownResult(true)
+        }
+
     }
 }
