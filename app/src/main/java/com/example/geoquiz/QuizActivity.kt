@@ -30,8 +30,7 @@ class QuizActivity : AppCompatActivity() {
     private val quizViewModel: QuizViewModel by lazy {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
-
-    private lateinit var questionWasAnswered: BooleanArray
+    
 
     private lateinit var correctAnswers: ArrayList<Int>
     private var score: Int = 0
@@ -41,8 +40,6 @@ class QuizActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_quiz)
 
-        questionWasAnswered =
-            BooleanArray(quizViewModel.questionBank.size) // button true or false was clicked
 
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
@@ -54,7 +51,8 @@ class QuizActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) {
             quizViewModel.currentIndex = savedInstanceState.getInt(QUESTION_INDEX_KEY)
-            questionWasAnswered = savedInstanceState.getBooleanArray(QUESTIONS_ANSWERED_KEY)!!
+            quizViewModel.questionWasAnswered =
+                savedInstanceState.getBooleanArray(QUESTIONS_ANSWERED_KEY)!!
         }
 
         questionTextView.setOnClickListener {
@@ -138,7 +136,7 @@ class QuizActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         Log.d(TAG, "onSaveInstanceState() called")
         outState.putInt(QUESTION_INDEX_KEY, quizViewModel.currentIndex)
-        outState.putBooleanArray(QUESTIONS_ANSWERED_KEY, questionWasAnswered)
+        outState.putBooleanArray(QUESTIONS_ANSWERED_KEY, quizViewModel.questionWasAnswered)
     }
 
     override fun onStop() {
@@ -154,12 +152,11 @@ class QuizActivity : AppCompatActivity() {
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
-        falseButton.isClickable = !(questionWasAnswered[quizViewModel.currentIndex]!!)
-        trueButton.isClickable = !(questionWasAnswered[quizViewModel.currentIndex]!!)
+        falseButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex]!!)
+        trueButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex]!!)
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
-        questionWasAnswered = BooleanArray(quizViewModel.questionBank.size)
         correctAnswers = ArrayList()
         val answerIsTrue = quizViewModel.currentQuestionAnswer
 
@@ -171,7 +168,7 @@ class QuizActivity : AppCompatActivity() {
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
-        questionWasAnswered[quizViewModel.currentIndex] = true
+        quizViewModel.questionWasAnswered[quizViewModel.currentIndex] = true
         trueButton.isClickable = false
         falseButton.isClickable = false
     }
