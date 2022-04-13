@@ -32,7 +32,6 @@ class QuizActivity : AppCompatActivity() {
     }
 
 
-    private lateinit var correctAnswers: ArrayList<Int>
     private var score: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,12 +61,18 @@ class QuizActivity : AppCompatActivity() {
 
         trueButton.setOnClickListener {
 
-            checkAnswer(true)
+            quizViewModel.checkAnswer(true)
+            Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
+            trueButton.isClickable = false
+            falseButton.isClickable = false
         }
 
         falseButton.setOnClickListener {
 
-            checkAnswer(false)
+            quizViewModel.checkAnswer(false)
+            Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
+            trueButton.isClickable = false
+            falseButton.isClickable = false
         }
 
         nextButton.setOnClickListener {
@@ -85,7 +90,7 @@ class QuizActivity : AppCompatActivity() {
 
         scoreButton.setOnClickListener {
 
-            for (i in correctAnswers) {
+            for (i in quizViewModel.correctAnswers) {
                 score += 1
                 print(i)
             }
@@ -156,20 +161,5 @@ class QuizActivity : AppCompatActivity() {
         trueButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex]!!)
     }
 
-    private fun checkAnswer(userAnswer: Boolean) {
-        correctAnswers = ArrayList()
-        val answerIsTrue = quizViewModel.currentQuestionAnswer
 
-        val messageResId = when {
-            quizViewModel.isCheater -> R.string.judgment_toast
-            userAnswer == answerIsTrue -> R.string.correct_toast
-
-            else -> R.string.incorrect_toast
-        }
-
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
-        quizViewModel.questionWasAnswered[quizViewModel.currentIndex] = true
-        trueButton.isClickable = false
-        falseButton.isClickable = false
-    }
 }
