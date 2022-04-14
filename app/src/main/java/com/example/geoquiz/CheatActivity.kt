@@ -27,8 +27,6 @@ class CheatActivity : AppCompatActivity() {
 
         bindView()
 
-        answerTextView.isVisible = false
-
         setClickListeners()
     }
 
