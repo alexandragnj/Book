@@ -20,16 +20,16 @@
         android:orientation="horizontal">
 
     <Button
-        android:id="@+id/true_button"
+        android:id="@+id/_true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/true_button"/>
+        android:text="@string/_true"/>
 
     <Button
-        android:id="@+id/false_button"
+        android:id="@+id/_false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/false_button"/>
+        android:text="@string/_false"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -37,31 +37,31 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/prev_button"
+            android:id="@+id/previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/prev_button"
+            android:text="@string/previous"
             android:src="@drawable/ic_baseline_arrow_back_ios_24"
-            android:contentDescription="@string/content_prev"
+            android:contentDescription="@string/previous"
             />
 
     <ImageButton
-        android:id="@+id/next_button"
+        android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next_button"
+        android:text="@string/next"
         android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-        android:contentDescription="@string/content_next"
+        android:contentDescription="@string/next"
         />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/cheat_button"
+        android:id="@+id/cheat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/cheat_button" />
+        android:text="@string/cheat" />
 
     <Button
         android:id="@+id/score_button"

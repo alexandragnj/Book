@@ -25,8 +25,7 @@ class CheatActivity : AppCompatActivity() {
 
         answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
 
-        answerTextView = findViewById(R.id.answer_text_view)
-        showAnswerButton = findViewById(R.id.show_answer_button)
+        bindView()
 
         answerTextView.isVisible = false
 
@@ -48,12 +47,16 @@ class CheatActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK, data)
     }
 
-    private fun setClickListeners() {
+    private fun bindView() {
+        answerTextView = findViewById(R.id.answer_text_view)
+        showAnswerButton = findViewById(R.id.show_answer)
+    }
 
+    private fun setClickListeners() {
         showAnswerButton.setOnClickListener {
             val answerText = when {
-                answerIsTrue -> R.string.true_button
-                else -> R.string.false_button
+                answerIsTrue -> R.string._true
+                else -> R.string._false
             }
 
             answerTextView.isVisible = true

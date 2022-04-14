@@ -38,21 +38,13 @@ class QuizActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_quiz)
 
-        trueButton = findViewById(R.id.true_button)
-        falseButton = findViewById(R.id.false_button)
-        questionTextView = findViewById(R.id.question_text_view)
-        nextButton = findViewById(R.id.next_button)
-        prevButton = findViewById(R.id.prev_button)
-        scoreButton = findViewById(R.id.score_button)
-        cheatButton = findViewById(R.id.cheat_button)
+        bindViews()
 
-        if (savedInstanceState != null) {
-            quizViewModel.currentIndex = savedInstanceState.getInt(QUESTION_INDEX_KEY)
-            quizViewModel.questionWasAnswered =
-                savedInstanceState.getBooleanArray(QUESTIONS_ANSWERED_KEY)!!
-        }
+        restoreState(savedInstanceState)
 
         setClickListeners()
+
+        updateQuestion()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -98,22 +90,37 @@ class QuizActivity : AppCompatActivity() {
         Log.d(TAG, "onDestroy() called")
     }
 
-    private fun setClickListeners() {
+    private fun restoreState(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            quizViewModel.currentIndex = savedInstanceState.getInt(QUESTION_INDEX_KEY)
+            quizViewModel.questionWasAnswered =
+                savedInstanceState.getBooleanArray(QUESTIONS_ANSWERED_KEY)!!
+        }
+    }
 
+    private fun bindViews() {
+        trueButton = findViewById(R.id._true)
+        falseButton = findViewById(R.id._false)
+        questionTextView = findViewById(R.id.question_text_view)
+        nextButton = findViewById(R.id.next)
+        prevButton = findViewById(R.id.previous)
+        scoreButton = findViewById(R.id.score_button)
+        cheatButton = findViewById(R.id.cheat)
+    }
+
+    private fun setClickListeners() {
         questionTextView.setOnClickListener {
             quizViewModel.moveToNext()
             updateQuestion()
         }
 
         trueButton.setOnClickListener {
-
             quizViewModel.checkAnswer(true)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
             setAnswerButtonsClickable(false)
         }
 
         falseButton.setOnClickListener {
-
             quizViewModel.checkAnswer(false)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
             setAnswerButtonsClickable(false)
@@ -130,10 +137,7 @@ class QuizActivity : AppCompatActivity() {
             updateQuestion()
         }
 
-        updateQuestion()
-
         scoreButton.setOnClickListener {
-
             for (i in quizViewModel.correctAnswers) {
                 score += 1
                 print(i)

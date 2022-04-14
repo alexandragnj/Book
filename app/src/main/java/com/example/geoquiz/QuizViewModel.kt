@@ -44,10 +44,10 @@ class QuizViewModel : ViewModel() {
         messageResId = when {
             isCheater -> R.string.judgment_toast
             userAnswer == answerIsTrue -> {
-                R.string.correct_toast
+                R.string.correct
             }
 
-            else -> R.string.incorrect_toast
+            else -> R.string.incorrect
         }
         if (userAnswer == answerIsTrue) {
             correctAnswers.add(messageResId)
