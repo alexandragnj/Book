@@ -6,7 +6,7 @@ class QuizViewModel : ViewModel() {
 
     var currentIndex: Int = 0
     var isCheater = false
-    lateinit var correctAnswers: ArrayList<Int>
+    var correctAnswers: Int = 0
     var messageResId: Int = 0
 
     var questionBank = listOf<Question>(
@@ -30,15 +30,13 @@ class QuizViewModel : ViewModel() {
     }
 
     fun moveToPrev() {
-        currentIndex = (currentIndex - 1) % questionBank.size
+        currentIndex = (currentIndex - 1)
         if (currentIndex < 0) {
             currentIndex = questionBank.size - 1
         }
     }
 
     fun checkAnswer(userAnswer: Boolean) {
-        correctAnswers = ArrayList()
-
         val answerIsTrue = currentQuestionAnswer
 
         messageResId = when {
@@ -50,7 +48,7 @@ class QuizViewModel : ViewModel() {
             else -> R.string.incorrect
         }
         if (userAnswer == answerIsTrue) {
-            correctAnswers.add(messageResId)
+            correctAnswers += 1
         }
 
         questionWasAnswered[currentIndex] = true

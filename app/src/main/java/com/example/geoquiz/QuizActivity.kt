@@ -138,10 +138,7 @@ class QuizActivity : AppCompatActivity() {
         }
 
         scoreButton.setOnClickListener {
-            for (i in quizViewModel.correctAnswers) {
-                score += 1
-                print(i)
-            }
+            score = quizViewModel.correctAnswers
 
             val scoreFinalValue =
                 (score.toDouble() / quizViewModel.questionBank.size) * NUMBER_FOR_PERCENTAGE_CALCULATION
