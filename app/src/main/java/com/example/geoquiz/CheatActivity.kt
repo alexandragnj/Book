@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProviders
 
 private const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
 const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
@@ -16,6 +17,10 @@ class CheatActivity : AppCompatActivity() {
 
     private lateinit var answerTextView: TextView
     private lateinit var showAnswerButton: Button
+
+    private val quizViewModel: QuizViewModel by lazy {
+        ViewModelProviders.of(this).get(QuizViewModel::class.java)
+    }
 
     private var answerIsTrue = false
 
@@ -28,6 +33,17 @@ class CheatActivity : AppCompatActivity() {
         bindView()
 
         setClickListeners()
+
+        if (quizViewModel.showAnswerClicked) {
+            answerTextView.isVisible = true
+            if (answerIsTrue) {
+                answerTextView.setText(R.string._true)
+                setAnswerShownResult(true)
+            } else {
+                answerTextView.setText(R.string._false)
+                setAnswerShownResult(true)
+            }
+        }
     }
 
     companion object {
@@ -60,6 +76,7 @@ class CheatActivity : AppCompatActivity() {
             answerTextView.isVisible = true
             answerTextView.setText(answerText)
             setAnswerShownResult(true)
+            quizViewModel.showAnswerClicked = true
         }
     }
 }

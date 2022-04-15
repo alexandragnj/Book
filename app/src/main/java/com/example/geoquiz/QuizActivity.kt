@@ -162,6 +162,8 @@ class QuizActivity : AppCompatActivity() {
         questionTextView.setText(questionTextResId)
         falseButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex]!!)
         trueButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex]!!)
+
+        quizViewModel.isCheater = false
     }
 
     private fun setAnswerButtonsClickable(clickableStatus: Boolean) {
