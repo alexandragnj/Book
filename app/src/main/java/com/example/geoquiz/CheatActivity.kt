@@ -38,9 +38,9 @@ class CheatActivity : AppCompatActivity() {
         }
     }
 
-    private fun setAnswerShownResult(isAnswerShown: Boolean) {
+    private fun setAnswerShownResult() {
         val data = Intent().apply {
-            putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown)
+            putExtra(EXTRA_ANSWER_SHOWN, true)
         }
         setResult(Activity.RESULT_OK, data)
     }
@@ -59,7 +59,7 @@ class CheatActivity : AppCompatActivity() {
 
             answerTextView.isVisible = true
             answerTextView.setText(answerText)
-            setAnswerShownResult(true)
+            setAnswerShownResult()
         }
     }
 }

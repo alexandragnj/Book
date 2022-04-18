@@ -2,8 +2,6 @@ package com.example.geoquiz
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ActivityOptions
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +9,10 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProviders
 
 private const val TAG = "MainActivity"
@@ -34,6 +35,11 @@ class QuizActivity : AppCompatActivity() {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
 
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            onActivityResult(REQUEST_CODE_CHEAT, result)
+    }
+
     private var score: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,15 +56,16 @@ class QuizActivity : AppCompatActivity() {
         updateQuestion()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
+    private fun onActivityResult(requestCode: Int, result: ActivityResult){
+        if (result.resultCode != Activity.RESULT_OK) {
             Log.d(TAG, "There is no result - onActiviyResult")
             return
         }
         if (requestCode == REQUEST_CODE_CHEAT) {
-            quizViewModel.isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+            val intent = result.data
+            quizViewModel.isCheater = intent?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
         }
+
     }
 
     override fun onStart() {
@@ -121,13 +128,13 @@ class QuizActivity : AppCompatActivity() {
         trueButton.setOnClickListener {
             quizViewModel.checkAnswer(true)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
-            setAnswerButtonsClickable(false)
+            setAnswerButtonsClickable()
         }
 
         falseButton.setOnClickListener {
             quizViewModel.checkAnswer(false)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
-            setAnswerButtonsClickable(false)
+            setAnswerButtonsClickable()
         }
 
         nextButton.setOnClickListener {
@@ -159,11 +166,12 @@ class QuizActivity : AppCompatActivity() {
             val intent = CheatActivity.newIntent(this@QuizActivity, answerIsTrue)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val options = ActivityOptions
+                val options = ActivityOptionsCompat
                     .makeClipRevealAnimation(view, 0, 0, view.width, view.height)
-                startActivityForResult(intent, REQUEST_CODE_CHEAT, options.toBundle())
+                //startActivityForResult(intent, REQUEST_CODE_CHEAT, options.toBundle())
+                resultLauncher.launch(intent, options)
             } else {
-                startActivityForResult(intent, REQUEST_CODE_CHEAT)
+                resultLauncher.launch(intent)
             }
         }
     }
@@ -171,12 +179,12 @@ class QuizActivity : AppCompatActivity() {
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
-        falseButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex]!!)
-        trueButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex]!!)
+        falseButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex])
+        trueButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex])
     }
 
-    private fun setAnswerButtonsClickable(clickableStatus: Boolean) {
-        trueButton.isClickable = clickableStatus
-        falseButton.isClickable = clickableStatus
+    private fun setAnswerButtonsClickable() {
+        trueButton.isClickable = false
+        falseButton.isClickable = false
     }
 }
