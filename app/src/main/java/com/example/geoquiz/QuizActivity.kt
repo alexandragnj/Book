@@ -15,12 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProviders
 
-private const val TAG = "MainActivity"
-private const val QUESTION_INDEX_KEY = "index"
-private const val QUESTIONS_ANSWERED_KEY = "answer"
-private const val REQUEST_CODE_CHEAT = 0
-private const val NUMBER_FOR_PERCENTAGE_CALCULATION = 100
-
 class QuizActivity : AppCompatActivity() {
 
     private lateinit var trueButton: Button
@@ -100,16 +94,18 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun restoreState(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
+        savedInstanceState?.let {
             quizViewModel.currentIndex = savedInstanceState.getInt(QUESTION_INDEX_KEY)
-            quizViewModel.questionWasAnswered =
-                savedInstanceState.getBooleanArray(QUESTIONS_ANSWERED_KEY)!!
+            val questionAnswered = savedInstanceState.getBooleanArray(QUESTIONS_ANSWERED_KEY)
+            questionAnswered?.let {
+                quizViewModel.questionWasAnswered = it
+            }
         }
     }
 
     private fun bindViews() {
-        trueButton = findViewById(R.id._true)
-        falseButton = findViewById(R.id._false)
+        trueButton = findViewById(R.id.true_button)
+        falseButton = findViewById(R.id.false_button)
         questionTextView = findViewById(R.id.question_text_view)
         nextButton = findViewById(R.id.next)
         prevButton = findViewById(R.id.previous)
@@ -187,5 +183,13 @@ class QuizActivity : AppCompatActivity() {
         } else {
             resultLauncher.launch(intent)
         }
+    }
+
+    companion object {
+        private const val TAG = "QuizActivity"
+        private const val QUESTION_INDEX_KEY = "question_index"
+        private const val QUESTIONS_ANSWERED_KEY = "question_answered"
+        private const val REQUEST_CODE_CHEAT = 0
+        private const val NUMBER_FOR_PERCENTAGE_CALCULATION = 100
     }
 }

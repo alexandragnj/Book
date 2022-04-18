@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:text="@string/warning_text"/>
+        android:text="@string/warning_text" />
 
     <TextView
         android:id="@+id/answer_text_view"
@@ -19,11 +19,11 @@
         android:layout_height="wrap_content"
         android:padding="24dp"
         android:visibility="invisible"
-        tools:text="Answer"/>
+        tools:text="Answer" />
 
     <Button
         android:id="@+id/show_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/show_answer"/>
+        android:text="@string/show_answer" />
 </LinearLayout>

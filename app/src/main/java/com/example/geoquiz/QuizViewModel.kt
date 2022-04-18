@@ -15,7 +15,7 @@ class QuizViewModel : ViewModel() {
         Question(R.string.question_mideast, false),
         Question(R.string.question_africa, false),
 
-    )
+        )
 
     var questionWasAnswered: BooleanArray = BooleanArray(questionBank.size)
 
@@ -44,7 +44,6 @@ class QuizViewModel : ViewModel() {
             userAnswer == answerIsTrue -> {
                 R.string.correct
             }
-
             else -> R.string.incorrect
         }
         if (userAnswer == answerIsTrue) {
