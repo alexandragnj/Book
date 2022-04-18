@@ -9,7 +9,7 @@ class QuizViewModel : ViewModel() {
     var correctAnswers: Int = 0
     var messageResId: Int = 0
 
-    var questionBank = listOf<Question>(
+    var questionBank = listOf(
         Question(R.string.question_australia, true),
         Question(R.string.question_oceans, true),
         Question(R.string.question_mideast, false),

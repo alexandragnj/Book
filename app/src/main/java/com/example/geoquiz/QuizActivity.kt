@@ -1,10 +1,10 @@
 package com.example.geoquiz
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -38,7 +38,7 @@ class QuizActivity : AppCompatActivity() {
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             onActivityResult(REQUEST_CODE_CHEAT, result)
-    }
+        }
 
     private var score: Int = 0
 
@@ -56,7 +56,7 @@ class QuizActivity : AppCompatActivity() {
         updateQuestion()
     }
 
-    private fun onActivityResult(requestCode: Int, result: ActivityResult){
+    private fun onActivityResult(requestCode: Int, result: ActivityResult) {
         if (result.resultCode != Activity.RESULT_OK) {
             Log.d(TAG, "There is no result - onActiviyResult")
             return
@@ -65,7 +65,6 @@ class QuizActivity : AppCompatActivity() {
             val intent = result.data
             quizViewModel.isCheater = intent?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
         }
-
     }
 
     override fun onStart() {
@@ -118,7 +117,6 @@ class QuizActivity : AppCompatActivity() {
         cheatButton = findViewById(R.id.cheat)
     }
 
-    @SuppressLint("RestrictApi")
     private fun setClickListeners() {
         questionTextView.setOnClickListener {
             quizViewModel.moveToNext()
@@ -162,17 +160,7 @@ class QuizActivity : AppCompatActivity() {
         }
 
         cheatButton.setOnClickListener { view ->
-            val answerIsTrue = quizViewModel.currentQuestionAnswer
-            val intent = CheatActivity.newIntent(this@QuizActivity, answerIsTrue)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val options = ActivityOptionsCompat
-                    .makeClipRevealAnimation(view, 0, 0, view.width, view.height)
-                //startActivityForResult(intent, REQUEST_CODE_CHEAT, options.toBundle())
-                resultLauncher.launch(intent, options)
-            } else {
-                resultLauncher.launch(intent)
-            }
+            openCheatActivity(view)
         }
     }
 
@@ -186,5 +174,18 @@ class QuizActivity : AppCompatActivity() {
     private fun setAnswerButtonsClickable() {
         trueButton.isClickable = false
         falseButton.isClickable = false
+    }
+
+    private fun openCheatActivity(view: View) {
+        val answerIsTrue = quizViewModel.currentQuestionAnswer
+        val intent = CheatActivity.newIntent(this@QuizActivity, answerIsTrue)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val options = ActivityOptionsCompat
+                .makeClipRevealAnimation(view, 0, 0, view.width, view.height)
+            resultLauncher.launch(intent, options)
+        } else {
+            resultLauncher.launch(intent)
+        }
     }
 }
