@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProviders
+import com.example.geoquiz.CheatActivity.Companion.EXTRA_ANSWER_SHOWN
 
 class QuizActivity : AppCompatActivity() {
 
@@ -31,7 +32,7 @@ class QuizActivity : AppCompatActivity() {
 
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            onActivityResult(REQUEST_CODE_CHEAT, result)
+            onActivityResult(result)
         }
 
     private var score: Int = 0
@@ -50,30 +51,14 @@ class QuizActivity : AppCompatActivity() {
         updateQuestion()
     }
 
-    private fun onActivityResult(requestCode: Int, result: ActivityResult) {
+    private fun onActivityResult(result: ActivityResult) {
         if (result.resultCode != Activity.RESULT_OK) {
             Log.d(TAG, "There is no result - onActiviyResult")
             return
-        }
-        if (requestCode == REQUEST_CODE_CHEAT) {
+        } else {
             val intent = result.data
             quizViewModel.isCheater = intent?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart() called")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume() called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause() called")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -81,16 +66,6 @@ class QuizActivity : AppCompatActivity() {
         Log.d(TAG, "onSaveInstanceState() called")
         outState.putInt(QUESTION_INDEX_KEY, quizViewModel.currentIndex)
         outState.putBooleanArray(QUESTIONS_ANSWERED_KEY, quizViewModel.questionWasAnswered)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop() called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy() called")
     }
 
     private fun restoreState(savedInstanceState: Bundle?) {
@@ -189,7 +164,6 @@ class QuizActivity : AppCompatActivity() {
         private const val TAG = "QuizActivity"
         private const val QUESTION_INDEX_KEY = "question_index"
         private const val QUESTIONS_ANSWERED_KEY = "question_answered"
-        private const val REQUEST_CODE_CHEAT = 0
         private const val NUMBER_FOR_PERCENTAGE_CALCULATION = 100
     }
 }
