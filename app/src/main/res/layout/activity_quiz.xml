@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,25 +11,26 @@
         android:id="@+id/question_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="24dp"/>
+        android:padding="24dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/_true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/_true"/>
+        <Button
+            android:id="@+id/true_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/true_button" />
 
-    <Button
-        android:id="@+id/_false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/_false"/>
+        <Button
+            android:id="@+id/false_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/false_button" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,20 +40,17 @@
             android:id="@+id/previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/previous"
-            android:src="@drawable/ic_baseline_arrow_back_ios_24"
             android:contentDescription="@string/previous"
-            />
+            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            android:text="@string/previous" />
 
-    <ImageButton
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-        android:contentDescription="@string/next"
-        />
-
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/next"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:text="@string/next" />
     </LinearLayout>
 
     <Button
@@ -67,6 +64,6 @@
         android:id="@+id/score_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Score"/>
+        android:text="@string/score" />
 
 </LinearLayout>

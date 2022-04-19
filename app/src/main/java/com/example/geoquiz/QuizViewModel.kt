@@ -10,13 +10,13 @@ class QuizViewModel : ViewModel() {
     var messageResId: Int = 0
     var showAnswerClicked = false
 
-    var questionBank = listOf<Question>(
+    var questionBank = listOf(
         Question(R.string.question_australia, true),
         Question(R.string.question_oceans, true),
         Question(R.string.question_mideast, false),
         Question(R.string.question_africa, false),
 
-    )
+        )
 
     var questionWasAnswered: BooleanArray = BooleanArray(questionBank.size)
 
@@ -45,7 +45,6 @@ class QuizViewModel : ViewModel() {
             userAnswer == answerIsTrue -> {
                 R.string.correct
             }
-
             else -> R.string.incorrect
         }
         if (userAnswer == answerIsTrue) {
