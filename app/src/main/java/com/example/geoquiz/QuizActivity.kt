@@ -13,7 +13,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.example.geoquiz.CheatActivity.Companion.EXTRA_ANSWER_SHOWN
 
 class QuizActivity : AppCompatActivity() {
@@ -27,7 +27,7 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var scoreButton: Button
 
     private val quizViewModel: QuizViewModel by lazy {
-        ViewModelProviders.of(this).get(QuizViewModel::class.java)
+        ViewModelProvider(this)[QuizViewModel::class.java]
     }
 
     private var resultLauncher =
