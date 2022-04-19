@@ -1,0 +1,81 @@
+package com.example.geoquiz
+
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+
+class CheatActivity : AppCompatActivity() {
+
+    private lateinit var answerTextView: TextView
+    private lateinit var showAnswerButton: Button
+
+    private val quizViewModel: QuizViewModel by lazy {
+        ViewModelProvider(this)[QuizViewModel::class.java]
+    }
+
+    private var answerIsTrue = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_cheat)
+
+        answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
+
+        bindView()
+
+        setClickListeners()
+
+        if (quizViewModel.showAnswerClicked) {
+            answerTextView.isVisible = true
+            if (answerIsTrue) {
+                answerTextView.setText(R.string.true_button)
+                setAnswerShownResult()
+            } else {
+                answerTextView.setText(R.string.false_button)
+                setAnswerShownResult()
+            }
+        }
+    }
+
+    private fun setAnswerShownResult() {
+        val data = Intent().apply {
+            putExtra(EXTRA_ANSWER_SHOWN, true)
+        }
+        setResult(Activity.RESULT_OK, data)
+    }
+
+    private fun bindView() {
+        answerTextView = findViewById(R.id.answer_text_view)
+        showAnswerButton = findViewById(R.id.show_answer)
+    }
+
+    private fun setClickListeners() {
+        showAnswerButton.setOnClickListener {
+            val answerText = when {
+                answerIsTrue -> R.string.true_button
+                else -> R.string.false_button
+            }
+            answerTextView.isVisible = true
+            answerTextView.setText(answerText)
+            setAnswerShownResult()
+            quizViewModel.showAnswerClicked = true
+        }
+    }
+
+    companion object {
+        private const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
+        const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
+
+        fun newIntent(packageContext: Context, answerIsTrue: Boolean): Intent {
+            return Intent(packageContext, CheatActivity::class.java).apply {
+                putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue)
+            }
+        }
+    }
+}
