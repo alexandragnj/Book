@@ -9,9 +9,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 
-private const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
-const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
-
 class CheatActivity : AppCompatActivity() {
 
     private lateinit var answerTextView: TextView
@@ -30,17 +27,9 @@ class CheatActivity : AppCompatActivity() {
         setClickListeners()
     }
 
-    companion object {
-        fun newIntent(packageContext: Context, answerIsTrue: Boolean): Intent {
-            return Intent(packageContext, CheatActivity::class.java).apply {
-                putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue)
-            }
-        }
-    }
-
-    private fun setAnswerShownResult(isAnswerShown: Boolean) {
+    private fun setAnswerShownResult() {
         val data = Intent().apply {
-            putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown)
+            putExtra(EXTRA_ANSWER_SHOWN, true)
         }
         setResult(Activity.RESULT_OK, data)
     }
@@ -53,13 +42,24 @@ class CheatActivity : AppCompatActivity() {
     private fun setClickListeners() {
         showAnswerButton.setOnClickListener {
             val answerText = when {
-                answerIsTrue -> R.string._true
-                else -> R.string._false
+                answerIsTrue -> R.string.true_button
+                else -> R.string.false_button
             }
 
             answerTextView.isVisible = true
             answerTextView.setText(answerText)
-            setAnswerShownResult(true)
+            setAnswerShownResult()
+        }
+    }
+
+    companion object {
+        private const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
+        const val EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown"
+
+        fun newIntent(packageContext: Context, answerIsTrue: Boolean): Intent {
+            return Intent(packageContext, CheatActivity::class.java).apply {
+                putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue)
+            }
         }
     }
 }
