@@ -14,8 +14,7 @@ class QuizViewModel : ViewModel() {
         Question(R.string.question_oceans, true),
         Question(R.string.question_mideast, false),
         Question(R.string.question_africa, false),
-
-        )
+    )
 
     var questionWasAnswered: BooleanArray = BooleanArray(questionBank.size)
 

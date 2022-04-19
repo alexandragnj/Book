@@ -69,7 +69,7 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun restoreState(savedInstanceState: Bundle?) {
-        savedInstanceState?.let {
+        if (savedInstanceState != null) {
             quizViewModel.currentIndex = savedInstanceState.getInt(QUESTION_INDEX_KEY)
             val questionAnswered = savedInstanceState.getBooleanArray(QUESTIONS_ANSWERED_KEY)
             questionAnswered?.let {
@@ -97,13 +97,13 @@ class QuizActivity : AppCompatActivity() {
         trueButton.setOnClickListener {
             quizViewModel.checkAnswer(true)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
-            setAnswerButtonsClickable()
+            setAnswerButtonsUnclickable()
         }
 
         falseButton.setOnClickListener {
             quizViewModel.checkAnswer(false)
             Toast.makeText(this, quizViewModel.messageResId, Toast.LENGTH_SHORT).show()
-            setAnswerButtonsClickable()
+            setAnswerButtonsUnclickable()
         }
 
         nextButton.setOnClickListener {
@@ -142,7 +142,7 @@ class QuizActivity : AppCompatActivity() {
         trueButton.isClickable = !(quizViewModel.questionWasAnswered[quizViewModel.currentIndex])
     }
 
-    private fun setAnswerButtonsClickable() {
+    private fun setAnswerButtonsUnclickable() {
         trueButton.isClickable = false
         falseButton.isClickable = false
     }
