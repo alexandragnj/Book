@@ -60,6 +60,12 @@
         android:layout_marginTop="24dp"
         android:text="@string/cheat" />
 
+    <TextView
+        android:id="@+id/numberOfCheatsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp" />
+
     <Button
         android:id="@+id/score_button"
         android:layout_width="wrap_content"

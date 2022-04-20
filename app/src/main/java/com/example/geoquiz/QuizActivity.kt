@@ -23,6 +23,7 @@ class QuizActivity : AppCompatActivity() {
     private lateinit var nextButton: ImageButton
     private lateinit var prevButton: ImageButton
     private lateinit var questionTextView: TextView
+    private lateinit var numberOfCheatsTextView: TextView
     private lateinit var cheatButton: Button
     private lateinit var scoreButton: Button
 
@@ -49,6 +50,9 @@ class QuizActivity : AppCompatActivity() {
         setClickListeners()
 
         updateQuestion()
+
+        numberOfCheatsTextView.text =
+            resources.getString(R.string.number_of_cheats, quizViewModel.numberOfCheats)
     }
 
     private fun onActivityResult(result: ActivityResult) {
@@ -86,6 +90,7 @@ class QuizActivity : AppCompatActivity() {
         prevButton = findViewById(R.id.previous)
         scoreButton = findViewById(R.id.score_button)
         cheatButton = findViewById(R.id.cheat)
+        numberOfCheatsTextView = findViewById(R.id.numberOfCheatsTextView)
     }
 
     private fun setClickListeners() {
@@ -131,7 +136,15 @@ class QuizActivity : AppCompatActivity() {
         }
 
         cheatButton.setOnClickListener { view ->
-            openCheatActivity(view)
+            if (quizViewModel.numberOfCheats > 0) {
+                openCheatActivity(view)
+                quizViewModel.numberOfCheats--
+            } else {
+                cheatButton.isClickable = false
+            }
+
+            numberOfCheatsTextView.text =
+                resources.getString(R.string.number_of_cheats, quizViewModel.numberOfCheats)
         }
     }
 

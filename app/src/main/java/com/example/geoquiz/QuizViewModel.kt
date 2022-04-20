@@ -8,6 +8,7 @@ class QuizViewModel : ViewModel() {
     var isCheater = false
     var correctAnswers: Int = 0
     var messageResId: Int = 0
+    var numberOfCheats: Int = 3
 
     var questionBank = listOf(
         Question(R.string.question_australia, true),
