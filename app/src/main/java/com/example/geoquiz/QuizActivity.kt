@@ -136,6 +136,7 @@ class QuizActivity : AppCompatActivity() {
         }
 
         cheatButton.setOnClickListener { view ->
+
             if (quizViewModel.numberOfCheats > 0) {
                 openCheatActivity(view)
                 quizViewModel.numberOfCheats--
@@ -145,6 +146,8 @@ class QuizActivity : AppCompatActivity() {
 
             numberOfCheatsTextView.text =
                 resources.getString(R.string.number_of_cheats, quizViewModel.numberOfCheats)
+
+            openCheatActivity(view)
         }
     }
 
