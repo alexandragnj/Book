@@ -52,7 +52,7 @@ class QuizActivity : AppCompatActivity() {
         updateQuestion()
 
         numberOfCheatsTextView.text =
-            resources.getString(R.string.number_of_cheats, quizViewModel.numberOfCheats)
+            resources.getString(R.string.number_of_cheats, quizViewModel.remainingCheatsCount)
     }
 
     private fun onActivityResult(result: ActivityResult) {
@@ -136,15 +136,16 @@ class QuizActivity : AppCompatActivity() {
         }
 
         cheatButton.setOnClickListener { view ->
-            if (quizViewModel.numberOfCheats > 0) {
+            if (quizViewModel.remainingCheatsCount > 0) {
                 openCheatActivity(view)
-                quizViewModel.numberOfCheats--
+                quizViewModel.remainingCheatsCount--
             } else {
-                cheatButton.isClickable = false
+                Toast.makeText(this, "All the cheats have been consumed.", Toast.LENGTH_SHORT)
+                    .show()
             }
 
             numberOfCheatsTextView.text =
-                resources.getString(R.string.number_of_cheats, quizViewModel.numberOfCheats)
+                resources.getString(R.string.number_of_cheats, quizViewModel.remainingCheatsCount)
         }
     }
 
