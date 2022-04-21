@@ -26,7 +26,7 @@ class CheatActivity : AppCompatActivity() {
 
         bindView()
 
-        apiLevelTextView.text=resources.getString(R.string.api_level,Build.VERSION.SDK_INT)
+        apiLevelTextView.text = resources.getString(R.string.api_level, Build.VERSION.SDK_INT)
 
         setClickListeners()
     }
